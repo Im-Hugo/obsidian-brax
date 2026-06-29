@@ -1,3 +1,8 @@
+
+
+```markdown
+<div align="center">
+
 # 🚀 Brax
 
 **The Ultimate HTML/JS Sandbox inside Obsidian**
@@ -123,7 +128,7 @@ Standard iframes block `document.cookie` due to `SameSite` policies. Brax solves
 
 ### 🛠️ نحوه کارکرد
 براکس از یک فرمت مارک‌داون خاص برای جدا کردن کد شما از داده‌ها استفاده می‌کند:
-
+```markdown
 ---
 brax-app: true
 ---
