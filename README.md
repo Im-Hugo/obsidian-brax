@@ -1,8 +1,3 @@
-
-
-```markdown
-<div align="center">
-
 # 🚀 Brax
 
 **The Ultimate HTML/JS Sandbox inside Obsidian**
