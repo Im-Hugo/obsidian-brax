@@ -9,7 +9,6 @@
   <a href="#-فارسی">فارسی</a> •
   <a href="#-中文">中文</a>
 </p>
-![Banner](https://raw.githubusercontent.com/Im-Hugo/obsidian-brax/main/Banner.png)
 ---
 
 ## 🇬🇧 English
