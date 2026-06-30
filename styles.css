@@ -1,316 +1,185 @@
-/* ================= متغیرها ================= */
-:root {
-    --brax-editor-height: 50%;
-    --brax-animation-speed: 0.3s;
-    --brax-handle-width: 40px;
-    --brax-handle-height: 4px;
-    --brax-border-radius: 16px;
-    --brax-min-touch-target: 48px;
-    --brax-safe-bottom: env(safe-area-inset-bottom, 0px);
-    --brax-safe-top: env(safe-area-inset-top, 0px);
+/* ─── Container ─────────────────────────────────── */
+.brax-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--background-primary);
 }
 
-/* ================= VIEW اصلی ================= */
-.brax-mobile-view {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    background: #000;
-    position: relative;
-    overflow: hidden;
-    padding: var(--brax-safe-top) 0 var(--brax-safe-bottom) 0;
-    box-sizing: border-box;
+/* ─── Header ────────────────────────────────────── */
+.brax-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--background-modifier-border);
+  background: var(--background-secondary);
+  flex-shrink: 0;
+}
+.brax-name-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  outline: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-accent);
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: border-color 0.15s, background 0.15s;
+  min-width: 0;
+}
+.brax-name-input:hover {
+  border-bottom-color: var(--background-modifier-border);
+}
+.brax-name-input:focus {
+  background: var(--background-modifier-hover);
+  border-bottom-color: var(--interactive-accent);
 }
 
-/* ================= Preview Container ================= */
-.brax-preview-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    position: relative;
+/* ─── Buttons ───────────────────────────────────── */
+.brax-btn {
+  padding: 4px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-border);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--background-primary);
+  color: var(--text-normal);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.brax-btn:hover { background: var(--background-modifier-hover); }
+.brax-btn-active {
+  background: var(--interactive-accent) !important;
+  color: var(--text-on-accent) !important;
+  border-color: transparent !important;
 }
 
-.brax-iframe-mobile {
-    flex: 1;
-    width: 100%;
-    height: 100%;
-    border: none;
-    background: #fff;
-    touch-action: manipulation;
-    -webkit-overflow-scrolling: touch;
+/* ─── Editor (fullscreen) ───────────────────────── */
+.brax-editor-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-primary);
 }
 
-/* ================= Editors Panel ================= */
-.brax-editors-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: var(--brax-editor-height);
-    background: var(--background-primary);
-    border-top: 2px solid var(--interactive-accent);
-    border-radius: var(--brax-border-radius) var(--brax-border-radius) 0 0;
-    transform: translateY(100%);
-    transition: transform var(--brax-animation-speed) cubic-bezier(0.32, 0.72, 0, 1);
-    z-index: 10;
-    
-    /* بسیار مهم: مخفی کردن مطلق تا زمانی که فرمان صادر نشود */
-    display: none !important;
-    
-    padding-bottom: var(--brax-safe-bottom);
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-    will-change: transform;
+/* Editor toolbar */
+.brax-editor-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  background: var(--background-secondary);
+  border-bottom: 1px solid var(--background-modifier-border);
+  flex-shrink: 0;
+}
+.brax-editor-lang {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.brax-btn-close {
+  padding: 3px 12px;
+  font-size: 0.78rem;
 }
 
-/* این کلاس فقط از طریق فرمان Toggle اضافه می‌شود */
-.brax-editors-container.is-visible {
-    display: flex !important;
+/* Editor body */
+.brax-editor-inner {
+  flex: 1;
+  display: flex;
+  overflow: auto;
+  min-height: 0;
+}
+.brax-line-nums {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0.6rem 1rem 1rem;
+  color: var(--text-faint);
+  font-family: var(--font-monospace);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  text-align: right;
+  user-select: none;
+  border-right: 1px solid var(--background-modifier-border);
+  min-width: 2.8rem;
+  overflow: hidden;
+  background: var(--background-secondary);
+}
+.brax-line-nums span { display: block; }
+.brax-editor {
+  flex: 1;
+  resize: none;
+  font-family: var(--font-monospace);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  padding: 1rem;
+  background: transparent;
+  color: var(--text-normal);
+  border: none;
+  outline: none;
+  tab-size: 2;
 }
 
-/* Drag Handle */
-.brax-editors-container::before {
-    content: '';
-    position: absolute;
-    top: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: var(--brax-handle-width);
-    height: var(--brax-handle-height);
-    background: var(--text-faint);
-    border-radius: 2px;
-    z-index: 2;
-    opacity: 0.4;
+/* ─── Preview ───────────────────────────────────── */
+.brax-preview {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  min-height: 0;
+}
+.brax-iframe-wrap {
+  flex: 1;
+  background: white;
+}
+.brax-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
 }
 
-.brax-editors-container.slide-in {
-    transform: translateY(0);
+/* ─── Code Block ────────────────────────────────── */
+.brax-cb-wrapper {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+.brax-cb-iframe {
+  width: 100%;
+  height: 320px;
+  border: none;
+  background: white;
+  display: block;
+}
+.brax-cb-toggle {
+  display: block;
+  width: 100%;
+  padding: 5px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  background: var(--background-secondary);
+  color: var(--text-muted);
+  border: none;
+  border-top: 1px solid var(--background-modifier-border);
+  transition: background 0.15s;
+}
+.brax-cb-toggle:hover { background: var(--background-modifier-hover); }
+.brax-cb-source {
+  margin: 0;
+  padding: 1rem;
+  font-size: 0.8rem;
+  overflow-x: auto;
+  background: var(--background-secondary);
+  border-top: 1px solid var(--background-modifier-border);
 }
 
-.brax-editor-panel {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow: hidden;
-    width: 100%;
-}
-
-/* Label */
-.brax-label {
-    flex-shrink: 0;
-    padding: 14px 12px 10px;
-    background: var(--background-secondary-alt);
-    font-weight: 600;
-    font-size: 11px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    border-bottom: 1px solid var(--background-modifier-border);
-}
-
-/* Code Textarea */
-.brax-code {
-    flex: 1;
-    width: 100%;
-    border: none;
-    resize: none;
-    padding: 12px;
-    font-family: 'SF Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 16px; /* جلوگیری از زوم iOS */
-    line-height: 1.5;
-    background: var(--background-primary);
-    color: var(--text-normal);
-    outline: none;
-    tab-size: 2;
-    -moz-tab-size: 2;
-    box-sizing: border-box;
-    -webkit-appearance: none;
-    -webkit-text-fill-color: var(--text-normal);
-}
-
-.brax-code::placeholder {
-    -webkit-text-fill-color: var(--text-faint);
-}
-
-.brax-code:focus {
-    background: var(--background-primary-alt);
-}
-
-/* ================= Modal ================= */
-.brax-modal-mobile .modal-content {
-    max-width: 100%;
-    padding: 20px 16px;
-    max-height: 90vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    box-sizing: border-box;
-}
-
-.brax-modal-mobile .modal {
-    width: 95%;
-    max-width: 500px;
-    border-radius: 12px;
-    animation: brax-modal-in 0.25s cubic-bezier(0.32, 0.72, 0, 1);
-}
-
-@keyframes brax-modal-in {
-    from { opacity: 0; transform: scale(0.95) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.brax-modal-mobile h2 {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0 0 20px;
-    text-align: center;
-    color: var(--text-normal);
-}
-
-.brax-modal-mobile .setting-item {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 6px;
-    margin-bottom: 16px;
-    padding: 0;
-    border: none;
-}
-
-.brax-modal-mobile .setting-item-info { margin: 0; }
-.brax-modal-mobile .setting-item-name { font-weight: 600; color: var(--text-normal); }
-.brax-modal-mobile .setting-item-description { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
-.brax-modal-mobile .setting-item-control { width: 100%; }
-
-/* Inputs */
-.brax-modal-mobile input[type="text"],
-.brax-modal-mobile textarea {
-    width: 100%;
-    font-size: 16px; 
-    padding: 12px;
-    border: 1px solid var(--background-modifier-border);
-    border-radius: 8px;
-    background: var(--background-primary);
-    color: var(--text-normal);
-    box-sizing: border-box;
-    -webkit-appearance: none;
-    -webkit-text-fill-color: var(--text-normal);
-    transition: border-color 0.2s ease;
-}
-
-.brax-modal-mobile input[type="text"]:focus,
-.brax-modal-mobile textarea:focus {
-    border-color: var(--interactive-accent);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(var(--interactive-accent-rgb), 0.15);
-}
-
-/* Code Textarea in Modal */
-.brax-modal-code {
-    width: 100%;
-    min-height: 280px;
-    font-family: 'SF Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 14px;
-    line-height: 1.5;
-    padding: 12px;
-    border: 1px solid var(--background-modifier-border);
-    border-radius: 8px;
-    background: var(--background-primary);
-    color: var(--text-normal);
-    resize: vertical;
-    box-sizing: border-box;
-    -webkit-appearance: none;
-    -webkit-text-fill-color: var(--text-normal);
-}
-
-/* Buttons */
-.brax-modal-mobile button {
-    min-height: var(--brax-min-touch-target);
-    padding: 12px 20px;
-    font-size: 15px;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    margin: 4px 0;
-    cursor: pointer;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    transition: opacity 0.15s ease, transform 0.1s ease;
-    user-select: none;
-}
-
-.brax-modal-mobile button:active {
-    opacity: 0.8;
-    transform: scale(0.98);
-}
-
-.brax-modal-buttons {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-}
-
-.brax-modal-buttons .setting-item {
-    margin-bottom: 0;
-    flex: 1;
-}
-
-.brax-modal-buttons button {
-    width: 100%;
-    margin: 0;
-}
-
-/* ================= ریسپانسیو ================= */
-@media (max-width: 768px) {
-    .brax-modal-mobile .modal {
-        width: 100%;
-        max-width: 100%;
-        height: 95vh;
-        border-radius: 0;
-    }
-    .brax-modal-mobile .modal-content { padding: 16px; max-height: 100%; }
-    .brax-modal-code { min-height: 200px; font-size: 13px; }
-    :root { --brax-editor-height: 55%; }
-}
-
-@media (max-width: 380px) {
-    :root { --brax-editor-height: 60%; }
-    .brax-modal-code { min-height: 150px; }
-    .brax-modal-mobile h2 { font-size: 18px; }
-}
-
-@media (max-height: 500px) and (orientation: landscape) {
-    :root { --brax-editor-height: 70%; --brax-border-radius: 8px; }
-    .brax-modal-code { min-height: 100px; }
-    .brax-label { padding: 8px 12px; font-size: 10px; }
-}
-
-@supports (padding: env(safe-area-inset-top)) {
-    .brax-editors-container { padding-bottom: calc(var(--brax-safe-bottom) + 8px); }
-}
-
-/* ================= تم ================= */
-.theme-dark .brax-mobile-view { background: #1a1a1a; }
-.theme-dark .brax-iframe-mobile { background: #1e1e1e; }
-.theme-light .brax-mobile-view { background: #ffffff; }
-.theme-light .brax-iframe-mobile { background: #ffffff; }
-
-/* ================= Focus & Scrollbar ================= */
-.brax-modal-mobile *:focus-visible {
-    outline: 2px solid var(--interactive-accent);
-    outline-offset: 2px;
-}
-
-.brax-code::-webkit-scrollbar,
-.brax-modal-code::-webkit-scrollbar,
-.brax-modal-mobile .modal-content::-webkit-scrollbar { width: 6px; }
-.brax-code::-webkit-scrollbar-track,
-.brax-modal-code::-webkit-scrollbar-track,
-.brax-modal-mobile .modal-content::-webkit-scrollbar-track { background: transparent; }
-.brax-code::-webkit-scrollbar-thumb,
-.brax-modal-code::-webkit-scrollbar-thumb,
-.brax-modal-mobile .modal-content::-webkit-scrollbar-thumb { background: var(--text-faint); border-radius: 3px; }
-
-/* ================= Print ================= */
-@media print {
-    .brax-mobile-view { height: auto; overflow: visible; }
-    .brax-editors-container { display: none !important; }
-}
+/* ─── Utility ───────────────────────────────────── */
+.brax-hidden { display: none !important; }
