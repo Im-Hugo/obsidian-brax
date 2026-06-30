@@ -1,64 +1,26 @@
-/* ─── Container ─────────────────────────────────── */
+.workspace-leaf-content[data-type="brax-view"] .view-content {
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  border-radius: 0;
+}
+
+.brax-container,
+.brax-editor-wrap,
+.brax-editor-inner,
+.brax-editor,
+.brax-line-nums {
+  border-radius: 0;
+}
+
 .brax-container {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  height: 100%;
   background: var(--background-primary);
 }
 
-/* ─── Header ────────────────────────────────────── */
-.brax-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 12px;
-  border-bottom: 1px solid var(--background-modifier-border);
-  background: var(--background-secondary);
-  flex-shrink: 0;
-}
-.brax-name-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid transparent;
-  outline: none;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--text-accent);
-  padding: 2px 4px;
-  border-radius: 4px;
-  transition: border-color 0.15s, background 0.15s;
-  min-width: 0;
-}
-.brax-name-input:hover {
-  border-bottom-color: var(--background-modifier-border);
-}
-.brax-name-input:focus {
-  background: var(--background-modifier-hover);
-  border-bottom-color: var(--interactive-accent);
-}
-
-/* ─── Buttons ───────────────────────────────────── */
-.brax-btn {
-  padding: 4px 14px;
-  border-radius: 6px;
-  border: 1px solid var(--background-modifier-border);
-  cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 600;
-  background: var(--background-primary);
-  color: var(--text-normal);
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-.brax-btn:hover { background: var(--background-modifier-hover); }
-.brax-btn-active {
-  background: var(--interactive-accent) !important;
-  color: var(--text-on-accent) !important;
-  border-color: transparent !important;
-}
-
-/* ─── Editor (fullscreen) ───────────────────────── */
 .brax-editor-wrap {
   position: absolute;
   inset: 0;
@@ -68,16 +30,15 @@
   background: var(--background-primary);
 }
 
-/* Editor toolbar */
 .brax-editor-toolbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 6px 14px;
   background: var(--background-secondary);
   border-bottom: 1px solid var(--background-modifier-border);
   flex-shrink: 0;
 }
+
 .brax-editor-lang {
   font-size: 0.78rem;
   font-weight: 600;
@@ -85,18 +46,14 @@
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
-.brax-btn-close {
-  padding: 3px 12px;
-  font-size: 0.78rem;
-}
 
-/* Editor body */
 .brax-editor-inner {
   flex: 1;
   display: flex;
   overflow: auto;
   min-height: 0;
 }
+
 .brax-line-nums {
   display: flex;
   flex-direction: column;
@@ -112,7 +69,11 @@
   overflow: hidden;
   background: var(--background-secondary);
 }
-.brax-line-nums span { display: block; }
+
+.brax-line-nums span {
+  display: block;
+}
+
 .brax-editor {
   flex: 1;
   resize: none;
@@ -127,31 +88,35 @@
   tab-size: 2;
 }
 
-/* ─── Preview ───────────────────────────────────── */
 .brax-preview {
   flex: 1;
   overflow: hidden;
   display: flex;
   min-height: 0;
 }
+
 .brax-iframe-wrap {
   flex: 1;
   background: white;
+  position: relative;
+  touch-action: pan-y;
 }
+
 .brax-iframe {
   width: 100%;
   height: 100%;
   border: none;
   display: block;
+  touch-action: pan-y;
 }
 
-/* ─── Code Block ────────────────────────────────── */
 .brax-cb-wrapper {
   border: 1px solid var(--background-modifier-border);
   border-radius: 10px;
   overflow: hidden;
   margin: 0.5rem 0;
 }
+
 .brax-cb-iframe {
   width: 100%;
   height: 320px;
@@ -159,6 +124,7 @@
   background: white;
   display: block;
 }
+
 .brax-cb-toggle {
   display: block;
   width: 100%;
@@ -171,7 +137,11 @@
   border-top: 1px solid var(--background-modifier-border);
   transition: background 0.15s;
 }
-.brax-cb-toggle:hover { background: var(--background-modifier-hover); }
+
+.brax-cb-toggle:hover {
+  background: var(--background-modifier-hover);
+}
+
 .brax-cb-source {
   margin: 0;
   padding: 1rem;
@@ -181,5 +151,14 @@
   border-top: 1px solid var(--background-modifier-border);
 }
 
-/* ─── Utility ───────────────────────────────────── */
-.brax-hidden { display: none !important; }
+.brax-hidden {
+  display: none !important;
+}
+
+.brax-iframe-wrap {
+  touch-action: none;
+}
+
+.brax-iframe {
+  touch-action: none;
+}
