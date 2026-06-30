@@ -1,5 +1,5 @@
 # Brax
-![banner](https://raw.githubusercontent.com/Im-Hugo/obsidian-brax/main/Banner.png)
+![banner]([https://raw.githubusercontent.com/Im-Hugo/obsidian-brax/main/Banner.png](https://raw.githubusercontent.com/Im-Hugo/obsidian-brax/504a18cd9015cd55e69af4121246f99a769ce6da/Banner.png))
 [![Obsidian Downloads](https://img.shields.io/badge/dynamic/json?logo=obsidian&color=%23483699&label=downloads&query=%24%5B%22brax%22%5D.downloads&url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json)](https://obsidian.md/plugins?id=brax)
 [![Latest Version](https://img.shields.io/badge/dynamic/json?logo=github&color=green&label=version&query=%24%5B%22brax%22%5D.version&url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugins.json)](https://github.com/Im-Hugo/obsidian-brax/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
