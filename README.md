@@ -1,184 +1,285 @@
-# 🚀 Brax
-
-**The Ultimate HTML/JS Sandbox inside Obsidian**
+# Brax — Live Mini App Runner for Obsidian
 
 [![Obsidian Downloads](https://img.shields.io/badge/dynamic/json?logo=obsidian&color=%23483699&label=downloads&query=%24%5B%22brax%22%5D.downloads&url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json)](https://obsidian.md/plugins?id=brax)
 [![Latest Version](https://img.shields.io/badge/dynamic/json?logo=github&color=green&label=version&query=%24%5B%22brax%22%5D.version&url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugins.json)](https://github.com/Im-Hugo/obsidian-brax/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Turn your Obsidian vault into a live web development environment. Build, preview, and interact with HTML, CSS, and JavaScript applications directly inside your notes.
-
-[English](#english) | [فارسی](#فارسی)
-
-</div>
+> **English** | [فارسی](#فارسی)
 
 ---
 
-<a id="english"></a>
-## ✨ English Documentation
+## English
 
-### Why Brax?
-While Obsidian is incredible for writing Markdown, it lacks native support for rendering and interacting with live web applications. Standard HTML code blocks are static and lifeless. 
+### What is Brax?
 
-**Brax changes this by injecting a fully interactive, sandboxed browser environment directly into your workspace.** Unlike simple HTML viewers, Brax features a custom **Cookie Interception Engine**, meaning web apps that require state, sessions, or user logins can actually function properly inside your notes.
+Brax is an Obsidian plugin that lets you build HTML/CSS/JS mini apps and run them directly inside your vault. Write code, see the result instantly — no separate browser or external tool needed.
 
-### 🎯 Key Features
-*   **Live Preview Engine:** Write HTML/CSS/JS and see the results instantly in an isolated iframe.
-*   **Cookie Persistence:** Brax intelligently intercepts `document.cookie` requests from inside the iframe, stores them locally in your markdown file, and re-injects them on the next load.
-*   **Mobile-First Design:** Features a beautiful sliding bottom-sheet editor for mobile devices, complete with safe-area support for notched phones.
-*   **Zero UI Clutter:** The interface remains completely clean. Control everything seamlessly via the Command Palette.
-*   **Auto-Save:** Changes are automatically debounced and saved back to the underlying `.md` file.
-*   **Highly Optimized:** Prevents iOS auto-zoom, handles cross-origin restrictions gracefully, and cleans up memory leaks perfectly when closed.
-
-### 📖 Use Cases
-- **Rapid Prototyping:** Quickly test UI components or CSS layouts without leaving Obsidian.
-- **Interactive Widgets:** Create calculators, mini-dashboards, or interactive checklists.
-- **Web Games:** Run simple HTML5/JS games directly inside your vault.
-- **Educational Snippets:** Keep a library of interactive coding tutorials.
-- **Stateful Web Apps:** Test web apps that rely on cookies or session states.
-
-### 📦 Installation
-**From Obsidian Community Plugins (Recommended):**
-1. Go to **Settings** → **Community Plugins**.
-2. Turn off **Safe Mode**.
-3. Click **Browse**, search for `Brax`, install and enable it.
-
-**Manual Installation:**
-1. Download `main.js`, `styles.css`, and `manifest.json` from the [Releases Page](https://github.com/Im-Hugo/obsidian-brax/releases).
-2. Create a folder named `brax` in your vault's `.obsidian/plugins/` directory.
-3. Copy the files into that folder and restart Obsidian.
-
-### 🛠️ How It Works
-Brax uses a special Markdown format to separate your code from your data:
-```markdown
----
-brax-app: true
 ---
 
-#cookies
-{ "user_session": "abc123" }
+### Features
 
-#code
+- **Live execution** — app reloads automatically 300ms after every keystroke
+- **Full-screen editor** — code editor overlays the preview, with line numbers and Tab support
+- **Inline rename** — rename the mini app from within the editor; the file is renamed too
+- **`.brax` files** — each mini app is a standalone file with the `.brax` extension
+- **Code blocks** — use ` ```brax ` inside any note to render an app inline
+- **Keyboard save** — `Ctrl+S` / `Cmd+S` saves the file from inside the editor
+- **Sandbox** — apps are isolated from Obsidian internals
+
+---
+
+### Installation (Manual)
+
+```bash
+# 1. Create the plugin folder
+mkdir -p YOUR_VAULT/.obsidian/plugins/brax
+
+# 2. Copy the files
+cp main.js manifest.json styles.css YOUR_VAULT/.obsidian/plugins/brax/
+
+# 3. Or as a single command
+rm -rf YOUR_VAULT/.obsidian/plugins/brax && \
+mkdir -p YOUR_VAULT/.obsidian/plugins/brax && \
+cp ~/brax/{main.js,manifest.json,styles.css} YOUR_VAULT/.obsidian/plugins/brax/
+```
+
+Then in Obsidian:
+1. Open **Settings → Community Plugins**
+2. Disable **Safe Mode**
+3. Enable **Brax**
+
+---
+
+### Build from Source
+
+```bash
+# Install dependencies
+npm install
+
+# Build once
+npm run build
+
+# Build with watch (rebuilds on every file change)
+npm run dev
+```
+
+Requirements: **Node.js 16+**
+
+---
+
+### Usage
+
+#### Create a new Mini App
+
+- Click the `</>` icon in the sidebar ribbon
+- Or use Command Palette: `Brax: Create new Brax App`
+
+#### Editor Shortcuts
+
+| Key | Action |
+|-----|--------|
+| `Ctrl+S` / `Cmd+S` | Save file |
+| `Tab` | Insert 2-space indent |
+| `Enter` in name field | Confirm rename |
+
+#### Code Block inside a Note
+
+````markdown
+```brax
 <!DOCTYPE html>
 <html>
+<head>
+  <style>
+    body { font-family: sans-serif; padding: 1rem; }
+    button { padding: .5rem 1rem; cursor: pointer; }
+  </style>
+</head>
 <body>
-    <h1>Hello World!</h1>
-    <script>document.cookie = "user_session=abc123";</script>
+  <h2>Hello from Brax!</h2>
+  <button onclick="this.textContent = '🎉 Clicked!'">Click me</button>
 </body>
 </html>
 ```
-
-### ⌨️ Available Commands
-| Command | Description |
-| :--- | :--- |
-| **Brax: Create new Brax app** | Opens a modal to name and write a new HTML application. |
-| **Brax: Edit current Brax app** | Opens a large modal to edit the HTML code. |
-| **Brax: Toggle code editor** | Slides the inline code editor up from the bottom. |
-
-### 📱 Mobile Experience
-*   **Touch-Friendly:** Inputs set to `16px` to prevent iOS auto-zoom.
-*   **Safe Areas:** Respects `env(safe-area-inset-*)` for notched phones.
-*   **No Touch Hijacking:** Uses Command Palette toggle for a smooth mobile experience.
-*   **Sliding Panels:** The code editor acts like a native bottom sheet.
-
-### ⚙️ Technical Deep Dive: The Cookie Engine
-Standard iframes block `document.cookie` due to `SameSite` policies. Brax solves this by dynamically rewriting your code. It overrides `document.cookie` using `Object.defineProperty`:
-1.  **Get:** Returns locally stored cookies from the markdown file.
-2.  **Set:** Intercepts the cookie and sends a secure `postMessage` to the parent window.
-3.  **Save:** The parent window triggers a debounced save to the `.md` file.
+````
 
 ---
 
-<a id="فارسی"></a>
-## ✨ مستندات فارسی
+### File Structure
 
-### چرا براکس (Brax)؟
-با وجود اینکه ابسیدین برای نوشتن مارک‌داون فوق‌العاده است، اما از پردازش و تعامل با برنامه‌های وب زنده پشتیبانی نمی‌کند. بلوک‌های کد HTML در ابسیدین کاملاً ایستا و بی‌روح هستند.
+```
+brax/
+├── main.js          ← compiled plugin code
+├── manifest.json    ← plugin metadata
+├── styles.css       ← styles
+├── src/
+│   └── main.ts      ← TypeScript source
+├── package.json
+├── tsconfig.json
+└── README.md
+```
 
-**براکس با تزریق یک محیط مرورگر ایزوله، تعاملی و کاملاً سندباکس شده مستقیماً به فضای کار شما، این مشکل را حل می‌کند.** برخلاف نمایش‌دهنده‌های ساده HTML، براکس دارای یک **موتور اختصاصی رهگیری کوکی** است؛ به این معنی که برنامه‌های وبی که به وضعیت (State)، سشن یا لاگین نیاز دارند، می‌توانند به درستی داخل یادداشت‌های شما کار کنند.
-
-### 🎯 ویژگی‌های کلیدی
-*   **موتور پیش‌نمایش زنده:** کدهای HTML/CSS/JS را بنویسید و بلافاصله نتیجه را در یک iframe ایزوله ببینید.
-*   **ماندگاری کوکی‌ها:** براکس به طرز هوشمندانه‌ای درخواست‌های `document.cookie` را از داخل فریم رهگیری می‌کند، آن‌ها را در فایل مارک‌داون شما ذخیره می‌کند و در بارگذاری بعدی دوباره تزریق می‌کند.
-*   **طراحی اول-موبایل:** دارای یک ویرایشگر لغزان زیبا برای دستگاه‌های موبایل، با پشتیبانی کامل از نواحی امن (Safe Area) برای گوشی‌های بریده دار (Notch).
-*   **بدون شلوغی رابط کاربری:** رابط کاربری کاملاً تمیز می‌ماند. همه چیز را به صورت یکپارچه از طریق پالت فرمان (Command Palette) کنترل کنید.
-*   **ذخیره خودکار:** تغییرات به صورت خودکار (Debounced) در فایل `.md` ذخیره می‌شوند تا فشاری به سیستم وارد نشود.
-*   **بهینه‌سازی شده:** از زوم خودکار در iOS جلوگیری می‌کند، محدودیت‌های Cross-origin را به زیبایی مدیریت می‌کند و نشت حافظه (Memory leak) را هنگام بسته شدن به طور کامل پاکسازی می‌کند.
-
-### 📖 موارد استفاده
-- **نمونه‌سازی سریع:** تست سریع کامپوننت‌های رابط کاربری یا طرح‌بندی‌های CSS بدون ترک ابسیدین.
-- **ویجت‌های تعاملی:** ساخت ماشین‌حساب، داشبوردهای مینی یا چک‌لیست‌های تعاملی.
-- **بازی‌های وب:** اجرای بازی‌های ساده HTML5/JS مستقیماً داخل خزانه‌ی شما.
-- **قطعات آموزشی:** نگهداری کتابخانه‌ای از آموزش‌های کدنویسی تعاملی که دانش‌آموزان بتوانند با آن‌ها بازی کنند.
-- **اپلیکیشن‌های دارای وضعیت:** تست اپلیکیشن‌های وبی که به کوکی‌ها یا وضعیت‌های سشن وابسته‌اند.
-
-### 📦 نحوه نصب
-**از طریق پلاگین‌های جامعه ابسیدین (توصیه می‌شود):**
-1. به **Settings** (تنظیمات) → **Community Plugins** بروید.
-2. حالت **Safe Mode** را خاموش کنید.
-3. روی **Browse** کلیک کنید، `Brax` را جستجو کرده، نصب و فعال کنید.
-
-**نصب دستی:**
-1. فایل‌های `main.js`، `styles.css` و `manifest.json` را از [صفحه ریلیزها](https://github.com/Im-Hugo/obsidian-brax/releases) دانلود کنید.
-2. یک پوشه به نام `brax` در مسیر `.obsidian/plugins/` خزانه‌ی خود بسازید.
-3. فایل‌ها را در آن پوشه کپی کنید و ابسیدین را ری‌استارت کنید.
-
-### 🛠️ نحوه کارکرد
-براکس از یک فرمت مارک‌داون خاص برای جدا کردن کد شما از داده‌ها استفاده می‌کند:
-```markdown
----
-brax-app: true
 ---
 
-#cookies
-{ "user_session": "abc123" }
+### Settings
 
-#code
+Under **Settings → Brax**:
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Sandbox iframes | Isolates apps from Obsidian internals | Enabled |
+
+---
+
+### Notes
+
+- The `.brax` extension is hidden in the header — only the app name is shown
+- Renaming is only possible from inside the editor toolbar
+- If rename fails, make sure no other file with the same name exists in the same folder
+
+---
+
+### License
+
+MIT © [Im-Hugo](https://github.com/Im-Hugo)
+
+---
+
+---
+
+## فارسی
+
+[![Obsidian Downloads](https://img.shields.io/badge/dynamic/json?logo=obsidian&color=%23483699&label=downloads&query=%24%5B%22brax%22%5D.downloads&url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json)](https://obsidian.md/plugins?id=brax)
+[![Latest Version](https://img.shields.io/badge/dynamic/json?logo=github&color=green&label=version&query=%24%5B%22brax%22%5D.version&url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugins.json)](https://github.com/Im-Hugo/obsidian-brax/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+### Brax چیست؟
+
+Brax یک افزونه برای Obsidian است که به شما اجازه می‌دهد مینی‌اپ‌های HTML/CSS/JS بسازید و آن‌ها را مستقیماً داخل vault خود اجرا کنید. کد می‌نویسید، بلافاصله نتیجه را می‌بینید — بدون نیاز به مرورگر جداگانه یا ابزار خارجی.
+
+---
+
+### ویژگی‌ها
+
+- **اجرای زنده** — هر بار که تایپ می‌کنید، اپ بعد از ۳۰۰ میلی‌ثانیه به‌صورت خودکار reload می‌شود
+- **ادیتور تمام‌صفحه** — ادیتور کد روی پیش‌نمایش می‌آید، با شماره خط و پشتیبانی از Tab
+- **تغییر نام** — اسم مینی‌اپ را مستقیم از داخل ادیتور تغییر دهید؛ فایل هم rename می‌شود
+- **فایل `.brax`** — هر مینی‌اپ یک فایل مستقل با پسوند `.brax` است
+- **Code block** — با نوشتن ` ```brax ` داخل هر نوت، اپ مستقیم در آن رندر می‌شود
+- **ذخیره با کیبورد** — `Ctrl+S` / `Cmd+S` داخل ادیتور فایل را ذخیره می‌کند
+- **Sandbox** — اپ‌ها از Obsidian ایزوله هستند
+
+---
+
+### نصب (دستی)
+
+```bash
+# ۱. پوشه افزونه را بساز
+mkdir -p YOUR_VAULT/.obsidian/plugins/brax
+
+# ۲. فایل‌ها را کپی کن
+cp main.js manifest.json styles.css YOUR_VAULT/.obsidian/plugins/brax/
+
+# ۳. یا با یک دستور
+rm -rf YOUR_VAULT/.obsidian/plugins/brax && \
+mkdir -p YOUR_VAULT/.obsidian/plugins/brax && \
+cp ~/brax/{main.js,manifest.json,styles.css} YOUR_VAULT/.obsidian/plugins/brax/
+```
+
+سپس در Obsidian:
+1. **Settings → Community Plugins** را باز کن
+2. **Safe Mode** را خاموش کن
+3. افزونه **Brax** را فعال کن
+
+---
+
+### بیلد از سورس
+
+```bash
+# نصب dependencies
+npm install
+
+# بیلد یک‌بار
+npm run build
+
+# بیلد با watch (هر بار که فایل تغییر کند)
+npm run dev
+```
+
+نیازمندی‌ها: **Node.js 16+**
+
+---
+
+### استفاده
+
+#### ساخت مینی‌اپ جدید
+
+- روی آیکون `</>` در نوار کناری کلیک کن
+- یا از Command Palette: `Brax: Create new Brax App`
+
+#### کلیدهای میانبر ادیتور
+
+| کلید | عملکرد |
+|------|---------|
+| `Ctrl+S` / `Cmd+S` | ذخیره فایل |
+| `Tab` | ۲ فاصله indent |
+| `Enter` در فیلد نام | تأیید تغییر نام |
+
+#### Code Block داخل نوت
+
+````markdown
+```brax
 <!DOCTYPE html>
 <html>
+<head>
+  <style>
+    body { font-family: sans-serif; padding: 1rem; }
+    button { padding: .5rem 1rem; cursor: pointer; }
+  </style>
+</head>
 <body>
-    <h1>سلام دنیا!</h1>
-    <script>document.cookie = "user_session=abc123";</script>
+  <h2>Hello from Brax!</h2>
+  <button onclick="this.textContent = '🎉 Clicked!'">Click me</button>
 </body>
 </html>
 ```
-
-### ⌨️ دستورات موجود
-دسترسی از طریق پالت فرمان (`Ctrl+P` یا `Cmd+P`):
-
-| دستور | توضیحات |
-| :--- | :--- |
-| **Brax: Create new Brax app** | یک مودال برای نام‌گذاری و نوشتن یک اپلیکیشن HTML جدید باز می‌کند. |
-| **Brax: Edit current Brax app** | یک مودال بزرگ برای ویرایش کدهای HTML اپلیکیشن فعلی باز می‌کند. |
-| **Brax: Toggle code editor** | ویرایشگر کد را از پایین صفحه به بالا می‌لغزاند (مناسب برای موبایل). |
-
-### 📱 تجربه موبایل
-*   **دوست‌دار لمس:** فیلدهای ورودی روی `16px` تنظیم شده‌اند تا از زوم خودکار آزاردهنده در iOS جلوگیری شود.
-*   **نواحی امن:** از `env(safe-area-inset-*)` برای گوشی‌های دارای بریدگی (Dynamic Island) پیروی می‌کند.
-*   **بدون اختلال در لمس:** به دلیل دزدیدن رویدادهای لمسی توسط موبایل در iframe، براکس به طور عمدی از سوایپ روی موبایل استفاده نکرده و فقط از طریق Command Palette کار می‌کند تا تجربه‌ای نرم داشته باشید.
-*   **پنل‌های لغزان:** ویرایشگر کد در موبایل مانند یک برگه پایینی (Bottom Sheet) بومی با انیمیشن‌های نرم عمل می‌کند.
-
-### ⚙️ نگاه فنی: موتور کوکی
-فریم‌های استاندارد به دلیل سیاست‌های `SameSite` دسترسی به `document.cookie` را مسدود می‌کنند. براکس این مشکل را با بازنویسی پویای کد شما قبل از تزریق به فریم حل می‌کند. با استفاده از `Object.defineProperty` ویژگی `document.cookie` را دور می‌زند:
-1.  **دریافت (Get):** کوکی‌های ذخیره شده محلی را از فایل مارک‌داون برمی‌گرداند.
-2.  **تنظیم (Set):** کوکی را رهگیری کرده و یک `postMessage` امن به پنجره اصلی (ابسیدین) می‌فرستد.
-3.  **ذخیره (Save):** پنجره اصلی وضعیت را به‌روزرسانی کرده و یک ذخیره خودکار با تاخیر (Debounced) را در فایل `.md` انجام می‌دهد.
+````
 
 ---
 
-<div align="center">
+### ساختار فایل‌ها
 
-## 🛠️ Development & Contributing | توسعه و مشارکت
-
-Want to contribute? It's built with TypeScript and ESBuild. 
-Check the [Issues page](https://github.com/Im-Hugo/obsidian-brax/issues) to start.
-
-## 📜 License | لایسنس
-This project is licensed under the MIT License.
-این پروژه تحت لایسنس MIT منتشر شده است.
-
-**Made with ❤️ for the Obsidian Community**
-**ساخته شده با ❤️ برای جامعه ابسیدین**
-
-</div>
 ```
+brax/
+├── main.js          ← کد اصلی افزونه (compiled)
+├── manifest.json    ← اطلاعات افزونه
+├── styles.css       ← استایل‌ها
+├── src/
+│   └── main.ts      ← سورس TypeScript
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+---
+
+### تنظیمات
+
+در **Settings → Brax**:
+
+| تنظیم | توضیح | پیش‌فرض |
+|-------|-------|---------|
+| Sandbox iframes | ایزوله‌سازی اپ‌ها از Obsidian | فعال |
+
+---
+
+### نکات مهم
+
+- پسوند `.brax` در هدر نشان داده نمی‌شود — فقط نام فایل
+- تغییر نام فقط از داخل ادیتور (toolbar بالا) ممکن است
+- اگر rename انجام نشد، مطمئن شو فایل دیگری با همان نام وجود ندارد
+
+---
+
+### لایسنس
+
+MIT © [Im-Hugo](https://github.com/Im-Hugo)
