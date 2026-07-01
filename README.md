@@ -27,6 +27,8 @@ The idea behind Brax is simple. Obsidian is already a place where people keep th
 - **Code blocks too.** You don't need a dedicated file for every experiment. Drop a ```brax fenced code block into any normal markdown note, and Brax will render it inline as a small embedded app, with a toggle button to show or hide the raw source underneath it.
 - **Touch support inside the sandbox.** The preview iframe forwards touch events properly, so apps you build behave correctly on tablets and touch-enabled devices, not just with mouse input.
 - **Sandboxed execution.** Every rendered app runs inside an iframe with a restricted sandbox policy. This keeps your apps isolated from each other and from Obsidian's own internals, so a buggy or experimental script can't reach outside its own little box.
+- **In-editor search & replace.** Open a find bar with `Ctrl+F` / `Cmd+F` (or the search icon in the editor toolbar) to jump between matches, and expand it into find-and-replace with `Ctrl+H` / `Cmd+H` to replace one occurrence or all of them at once.
+- **Multi-language interface.** The plugin's own UI (labels, notices, settings) can be switched between English, Persian, and Chinese from the settings tab.
 - **Quick creation.** A ribbon icon and a command let you spin up a brand new `.brax` file in seconds, complete with a small starter template (a gradient background, a heading, and a button) so you're never staring at a truly blank file.
 - **Command palette integration.** Create a new app, insert a Brax code block into the current note, or toggle edit/preview mode — all available as standard Obsidian commands, so you can bind them to your own hotkeys.
 
@@ -58,13 +60,20 @@ If you'd rather embed something small directly inside a note instead of creating
 
 ### Settings
 
-Brax currently exposes one setting:
+Brax currently exposes the following settings:
 
-- **Sandbox iframes** — keeps apps isolated from Obsidian's internals. This is enabled by default and it is strongly recommended to leave it on, since it's the main safeguard between the code you (or someone else) writes inside a `.brax` file and the rest of your Obsidian environment.
+- **Language** — interface language for the plugin (English, Persian, or Chinese).
+- **Editor font size** — font size of the code editor.
+- **Tab size** — number of spaces inserted when pressing Tab.
+- **Word wrap** — whether long lines wrap in the code editor, instead of scrolling horizontally.
+- **Preview refresh delay** — how many milliseconds to wait after you stop typing before the live preview refreshes.
+- **Accent color** — accent color used for buttons and highlights in the editor UI.
+
+Sandboxing itself isn't a toggle you can turn off: every rendered app always runs inside a restricted iframe sandbox, since it's the main safeguard between the code you (or someone else) writes inside a `.brax` file and the rest of your Obsidian environment.
 
 ### A note on safety
 
-Because Brax executes whatever HTML, CSS, and JavaScript you put into a file, you should treat `.brax` files the same way you'd treat any other piece of executable code: don't open or run files from sources you don't trust. Sandboxing reduces the blast radius significantly, but it isn't an absolute guarantee, especially since the preview iframe is granted script execution alongside same-origin and form/popup permissions in order to support fully functional little apps. If you're sharing a vault with others, treat `.brax` files with the same caution you'd give to any script someone else wrote.
+Because Brax executes whatever HTML, CSS, and JavaScript you put into a file, you should treat `.brax` files the same way you'd treat any other piece of executable code: don't open or run files from sources you don't trust. Sandboxing reduces the blast radius significantly, but it isn't an absolute guarantee, especially since the preview iframe is granted script execution alongside form, modal, and popup permissions in order to support fully functional little apps (it is not granted same-origin access, so it can't reach into your vault or the rest of Obsidian directly). If you're sharing a vault with others, treat `.brax` files with the same caution you'd give to any script someone else wrote.
 
 ### Use cases
 
@@ -96,6 +105,8 @@ This project is released under the [MIT License](https://opensource.org/licenses
 - **بلوک‌های کد هم همینطور.** نیازی نیست برای هر آزمایش یک فایل جداگانه بسازید. کافی است یک بلوک کد با علامت ```brax داخل هر یادداشت مارک‌داون معمولی قرار دهید، و براکس آن را به‌صورت یک اپلیکیشن کوچک تعبیه‌شده در همان‌جا رندر می‌کند، همراه با یک دکمه‌ی تغییر وضعیت برای نمایش یا پنهان کردن کد منبع زیر آن.
 - **پشتیبانی از لمس داخل محیط ایزوله.** آی‌فریم پیش‌نمایش رویدادهای لمسی را به‌درستی منتقل می‌کند، بنابراین اپلیکیشن‌هایی که می‌سازید روی تبلت‌ها و دستگاه‌های لمسی هم درست رفتار می‌کنند، نه فقط با موس.
 - **اجرای ایزوله و امن.** هر اپلیکیشن رندرشده داخل یک آی‌فریم با سیاست sandbox محدود اجرا می‌شود. این کار باعث می‌شود اپلیکیشن‌ها از یکدیگر و از هسته‌ی داخلی آبسیدیان جدا بمانند، بنابراین یک اسکریپت معیوب یا آزمایشی نمی‌تواند از محدوده‌ی کوچک خودش خارج شود.
+- **جست‌وجو و جایگزینی داخل ویرایشگر.** با کلید ترکیبی `Ctrl+F` یا `Cmd+F` (یا آیکن جست‌وجو در نوار ابزار ویرایشگر) یک نوار جست‌وجو باز می‌شود که می‌توانید بین موارد یافت‌شده حرکت کنید، و با `Ctrl+H` یا `Cmd+H` می‌توانید آن را به حالت جایگزینی گسترش دهید تا یک مورد یا همه‌ی موارد را یک‌جا جایگزین کنید.
+- **رابط کاربری چندزبانه.** رابط خود پلاگین (برچسب‌ها، اعلان‌ها، تنظیمات) را می‌توانید از تب تنظیمات بین انگلیسی، فارسی و چینی تغییر دهید.
 - **ایجاد سریع.** یک آیکن در نوار کناری و یک دستور به شما اجازه می‌دهد در عرض چند ثانیه یک فایل `.brax` جدید بسازید، همراه با یک قالب آغازین کوچک (یک پس‌زمینه‌ی گرادیانی، یک عنوان، و یک دکمه) تا هیچ‌وقت با یک فایل کاملاً خالی مواجه نشوید.
 - **یکپارچگی با پالت دستورات.** ساخت اپلیکیشن جدید، درج بلوک کد براکس در یادداشت فعلی، یا تغییر بین حالت ویرایش و پیش‌نمایش — همگی به‌صورت دستورات استاندارد آبسیدیان در دسترس هستند، بنابراین می‌توانید برایشان کلید میانبر دلخواه تعریف کنید.
 
@@ -127,13 +138,20 @@ This project is released under the [MIT License](https://opensource.org/licenses
 
 ### تنظیمات
 
-براکس در حال حاضر یک تنظیم دارد:
+براکس در حال حاضر این تنظیمات را در اختیار می‌گذارد:
 
-- **Sandbox iframes** — اپلیکیشن‌ها را از هسته‌ی داخلی آبسیدیان ایزوله نگه می‌دارد. این گزینه به‌طور پیش‌فرض فعال است و قویاً توصیه می‌شود روشن بماند، چون اصلی‌ترین خط دفاعی بین کدی که شما (یا شخص دیگری) داخل یک فایل `.brax` می‌نویسید و بقیه‌ی محیط آبسیدیان شماست.
+- **زبان (Language)** — زبان رابط کاربری پلاگین (انگلیسی، فارسی یا چینی).
+- **اندازه فونت ویرایشگر** — اندازه‌ی فونت ویرایشگر کد.
+- **اندازه‌ی Tab** — تعداد فاصله‌هایی که با فشردن کلید Tab درج می‌شود.
+- **شکستن خودکار خطوط (Word wrap)** — اینکه خطوط طولانی در ویرایشگر کد شکسته شوند یا به‌صورت افقی اسکرول شوند.
+- **تأخیر بروزرسانی پیش‌نمایش** — چند میلی‌ثانیه پس از توقف تایپ صبر شود تا پیش‌نمایش زنده به‌روزرسانی شود.
+- **رنگ تاکیدی (Accent color)** — رنگی که برای دکمه‌ها و هایلایت‌ها در رابط ویرایشگر استفاده می‌شود.
+
+خودِ ایزوله‌سازی (sandbox) یک گزینه‌ی قابل خاموش‌کردن نیست: هر اپلیکیشن رندرشده همیشه داخل یک iframe با sandbox محدود اجرا می‌شود، چون این همان خط دفاعی اصلی بین کدی که شما (یا شخص دیگری) داخل یک فایل `.brax` می‌نویسید و بقیه‌ی محیط آبسیدیان شماست.
 
 ### نکته‌ای درباره‌ی امنیت
 
-از آنجا که براکس هر کد HTML، CSS و JavaScript‌ای که داخل یک فایل قرار دهید را اجرا می‌کند، باید با فایل‌های `.brax` همان‌طور رفتار کنید که با هر تکه کد اجرایی دیگر رفتار می‌کنید: فایل‌هایی را که از منابع نامعتبر می‌آیند باز یا اجرا نکنید. ایزوله‌سازی (sandbox) به‌طور قابل‌توجهی شعاع آسیب احتمالی را کم می‌کند، اما تضمین مطلق نیست، به‌خصوص از آنجا که آی‌فریم پیش‌نمایش برای پشتیبانی از اپلیکیشن‌های کاملاً کاربردی، اجازه‌ی اجرای اسکریپت را همراه با مجوزهای same-origin و فرم/پاپ‌آپ دریافت می‌کند. اگر گنجه‌ای را با دیگران به اشتراک می‌گذارید، با فایل‌های `.brax` همان احتیاطی را داشته باشید که با هر اسکریپت نوشته‌شده توسط شخص دیگر دارید.
+از آنجا که براکس هر کد HTML، CSS و JavaScript‌ای که داخل یک فایل قرار دهید را اجرا می‌کند، باید با فایل‌های `.brax` همان‌طور رفتار کنید که با هر تکه کد اجرایی دیگر رفتار می‌کنید: فایل‌هایی را که از منابع نامعتبر می‌آیند باز یا اجرا نکنید. ایزوله‌سازی (sandbox) به‌طور قابل‌توجهی شعاع آسیب احتمالی را کم می‌کند، اما تضمین مطلق نیست، به‌خصوص از آنجا که آی‌فریم پیش‌نمایش برای پشتیبانی از اپلیکیشن‌های کاملاً کاربردی، اجازه‌ی اجرای اسکریپت را همراه با مجوزهای فرم، مودال و پاپ‌آپ دریافت می‌کند (این آی‌فریم دسترسی same-origin ندارد، بنابراین نمی‌تواند مستقیماً به گنجه یا بقیه‌ی آبسیدیان دسترسی پیدا کند). اگر گنجه‌ای را با دیگران به اشتراک می‌گذارید، با فایل‌های `.brax` همان احتیاطی را داشته باشید که با هر اسکریپت نوشته‌شده توسط شخص دیگر دارید.
 
 ### کاربردها
 
@@ -165,6 +183,8 @@ Brax 背后的想法很简单。Obsidian 本来就是人们存放思考、计划
 - **代码块同样支持。** 你不需要为每一次实验都新建一个文件。直接在任何普通的 Markdown 笔记里插入一段 ```brax 代码块，Brax 就会把它内嵌渲染成一个小型应用，并配有一个切换按钮，用来显示或隐藏下方的原始源代码。
 - **沙箱内的触控支持。** 预览用的 iframe 会正确转发触控事件，所以你做出来的应用在平板和触控设备上也能正常工作，而不只是支持鼠标输入。
 - **沙箱化运行。** 每个渲染出来的应用都在一个具有受限沙箱策略的 iframe 中运行。这样可以让各个应用彼此隔离，也和 Obsidian 自身的内部机制隔离开，因此一段有缺陷或带实验性质的脚本不会跑到自己的小盒子之外。
+- **编辑器内的查找与替换。** 按 `Ctrl+F` 或 `Cmd+F`（或点击编辑器工具栏中的搜索图标）打开查找栏，在匹配项之间跳转；按 `Ctrl+H` 或 `Cmd+H` 可展开为查找替换，替换单个匹配项或一次性全部替换。
+- **多语言界面。** 插件自身的界面（标签、通知、设置）可以在设置面板中切换为英文、波斯语或中文。
 - **快速创建。** 一个侧边栏图标和一个命令，让你在几秒钟内就能创建一个全新的 `.brax` 文件，并自带一个简单的起始模板（渐变背景、一个标题、一个按钮），所以你永远不会面对一个真正空白的文件。
 - **命令面板集成。** 创建新应用、在当前笔记中插入 Brax 代码块，或者切换编辑/预览模式——这些都作为标准的 Obsidian 命令提供，因此你可以为它们绑定自己习惯的快捷键。
 
@@ -196,13 +216,20 @@ Brax 背后的想法很简单。Obsidian 本来就是人们存放思考、计划
 
 ### 设置项
 
-Brax 目前提供一个设置项：
+Brax 目前提供以下设置项：
 
-- **沙箱化 iframe（Sandbox iframes）**——让应用与 Obsidian 内部机制保持隔离。该选项默认开启，强烈建议保持开启状态，因为这是你（或他人）写在 `.brax` 文件中的代码，与你 Obsidian 环境其他部分之间的主要防护屏障。
+- **语言（Language）** —— 插件界面语言（英文、波斯语或中文）。
+- **编辑器字体大小** —— 代码编辑器的字体大小。
+- **Tab 宽度** —— 按下 Tab 键时插入的空格数。
+- **自动换行（Word wrap）** —— 代码编辑器中的长行是自动换行，还是横向滚动。
+- **预览刷新延迟** —— 停止输入后，等待多少毫秒再刷新实时预览。
+- **主题色（Accent color）** —— 编辑器界面中按钮和高亮所使用的颜色。
+
+沙箱化本身并不是一个可以关闭的开关：每个渲染出来的应用始终运行在受限的 iframe 沙箱中，因为这正是你（或他人）写在 `.brax` 文件里的代码与你 Obsidian 环境其他部分之间的主要防护屏障。
 
 ### 关于安全性的说明
 
-由于 Brax 会执行你放入文件中的任何 HTML、CSS 和 JavaScript 代码，你应该像对待任何其他可执行代码一样对待 `.brax` 文件：不要打开或运行来自不信任来源的文件。沙箱化能显著缩小潜在影响范围，但并不是绝对的保证，尤其是因为预览用的 iframe 为了支持功能完整的小应用，被授予了脚本执行权限，并附带同源（same-origin）以及表单、弹窗相关的权限。如果你与他人共享同一个笔记库，对待 `.brax` 文件时，应保持和对待他人编写的任何脚本同样的谨慎态度。
+由于 Brax 会执行你放入文件中的任何 HTML、CSS 和 JavaScript 代码，你应该像对待任何其他可执行代码一样对待 `.brax` 文件：不要打开或运行来自不信任来源的文件。沙箱化能显著缩小潜在影响范围，但并不是绝对的保证，尤其是因为预览用的 iframe 为了支持功能完整的小应用，被授予了脚本执行权限，并附带表单、模态框和弹窗相关的权限（但没有被授予同源 same-origin 权限，因此它无法直接访问你的笔记库或 Obsidian 的其他部分）。如果你与他人共享同一个笔记库，对待 `.brax` 文件时，应保持和对待他人编写的任何脚本同样的谨慎态度。
 
 ### 应用场景
 
